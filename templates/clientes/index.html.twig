@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Clientes index{% endblock %}
+
+{% block body %}
+    <h1>Clientes index</h1>
+
+    <table id="clientes-table" class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>DNI</th>
+                <th>Apellido</th>
+                <th>Nombre</th>
+                <th>Telefono</th>
+                <th>Fecha</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for cliente in clientes %}
+            <tr>
+                <td>{{ cliente.id }}</td>
+                <td>{{ cliente.DNI }}</td>
+                <td>{{ cliente.apellido }}</td>
+                <td>{{ cliente.Nombre }}</td>
+                <td>{{ cliente.telefono }}</td>
+                <td>{{ cliente.Fecha ? cliente.Fecha|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_clientes_show', {'id': cliente.id}) }}">show</a>
+                    <a href="{{ path('app_clientes_edit', {'id': cliente.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ path('app_exportar_clientes_pdf') }}" class="btn btn-primary">Exportar a PDF</a>
+    <a href="{{ path('app_clientes_new') }}">Create new</a>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.6/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#clientes-table').DataTable();
+        });
+    </script>
+{% endblock %}
